@@ -1,11 +1,18 @@
 from django.test import TestCase
 
+from django.urls import resolve
+from entities.views import home_page
+
 # Create your tests here.
 
-class SmokeTest(TestCase):
+# Want to test at least 3 things:
+# 1. can we resolve URL for site root ("/") to a particular view
+# function?
+# 2. can we make this view function return some html with which to get
+# the functional test to pass?
 
-    """To ensure tests are being run"""
+class HomePageTest(TestCase):
 
-    def test_bad_math(self):
-        self.assertEqual(1 + 1, 3)
-
+    def test_root_url_resolves_to_home_page_view(self):
+        found = resolve('/')
+        self.assertEqual(found.func, home_page)
