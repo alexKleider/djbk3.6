@@ -21,7 +21,7 @@ class NewUserTest(unittest.TestCase):
 
     def test_can_enter_entities_and_see_them_listed(self):
         self.browser.get("http://localhost:8000")
-        self.assertIn("Double Entry Book Keeping", self.browser.title)
+        self.assertIn("Entities", self.browser.title)
         self.fail("Finish the test!")
 
 # The home page provides her with the option of creating
