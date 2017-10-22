@@ -1,5 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+#   Keys.ENTER, Keys.Ctrl, ...
 import unittest
+import time
 
 class NewUserTest(unittest.TestCase):
     """
@@ -21,15 +24,25 @@ class NewUserTest(unittest.TestCase):
 
     def test_can_enter_entities_and_see_them_listed(self):
         self.browser.get("http://localhost:8000")
-        self.assertIn("Entities", self.browser.title)
-        self.fail("Finish the test!")
-
-# The home page provides her with the option of creating
-# an 'entity'.
-
-# She creates 'FirstEntity' and sees that it appears on the page
-# in a 'List of Entities'.
-
+# She notices that it is a site for "Double Entry Book Keeping"...
+        self.assertIn("Double Entry Book Keeping", self.browser.title)
+# The home page provides her with the option of creating an 'entity'.
+        header = self.browser.find_element_by_tag_name("h1")
+        header_text = header.text
+        self.assertIn("New Entity", header_text)
+        inputbox = self.browser.find_element_by_id("id_new_entity")
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            "Enter a new entity")
+# She creates 'FirstEntity' ...
+        inputbox.sendkeys("FirstEntity")
+        inputbox.sendkeys(Keys.ENTER)
+        time.sleep(1)
+# ... and sees that it appears on the page in a 'List of Entities'.
+        table = self.browser.find_element_by_id("id_entity_table")
+        rows = table.find_elements_by_tag_name("tr")
+        self.assertTrue(
+            any(row.text == "1. FirstEntity" for row in rows))
 # There is still a text box allowing for creation of another.
 # She creates 'SecondEntity' and sees it added to the list.
 
@@ -39,6 +52,8 @@ class NewUserTest(unittest.TestCase):
 # Visiting that URL reveals her list.
 
 # Satisfied she goes back to sleep.
+
+        self.fail("Finish the test!")
 
 if __name__ == '__main__':
 #   unittest.main(warnings='ignore')  # launches the test runner
