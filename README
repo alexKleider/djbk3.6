@@ -1,0 +1,8 @@
+Using Percival's book Test Driven Development with Python.
+This is an attempt to use Django as a user interface for
+a double entry book keeping system[1]- a project already underway
+using only a command line interface[2].
+
+[1] url = https://github.com/alexKleider/djbk3.6.git
+[2] url = https://github.com/alexKleider/debk.git
+
