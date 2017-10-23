@@ -29,14 +29,14 @@ class NewUserTest(unittest.TestCase):
 # The home page provides her with the option of creating an 'entity'.
         header = self.browser.find_element_by_tag_name("h1")
         header_text = header.text
-        self.assertIn("New Entity", header_text)
+        self.assertIn("Entities", header_text)
         inputbox = self.browser.find_element_by_id("id_new_entity")
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             "Enter a new entity")
 # She creates 'FirstEntity' ...
-        inputbox.sendkeys("FirstEntity")
-        inputbox.sendkeys(Keys.ENTER)
+        inputbox.send_keys("FirstEntity")
+        inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 # ... and sees that it appears on the page in a 'List of Entities'.
         table = self.browser.find_element_by_id("id_entity_table")
