@@ -1,8 +1,11 @@
 <html>
     <title>Double Entry Book Keeping</title>
     <h1>Entities</h1>
-    <input id="id_new_entity"
-        placeholder="Enter a new entity" />
+    <form method="POST" >
+        <input name="entity_text" id="id_new_entity"
+            placeholder="Enter a new entity" />
+        {% csrf_token %}
+    </form>
     <table id="id_entity_table" >
     </table>
 </html>
