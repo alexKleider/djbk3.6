@@ -5,6 +5,6 @@ from django.shortcuts import render
 
 def home_page(request):
     return render(request, 'home.html',
-        {'new_entity_text': request.POST["entity_text"],
+        {'new_entity_text': request.POST.get("entity_text", ''),
         })
 
