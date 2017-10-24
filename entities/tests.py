@@ -31,3 +31,10 @@ class HomePageTest(TestCase):
 
         self.assertTemplateUsed(response, "home.html")
 #       self.assertTemplateUsed(response, "imaginary.html")
+
+# Test that we can deal with a POST request:
+
+    def test_can_save_a_POST_request(self):
+        response = self.client.post('/',
+            data = {"entity_text": "NewEntity"})
+        self.assertIn("NewEntity", response.content.decode())
