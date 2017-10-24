@@ -19,6 +19,14 @@ class NewUserTest(unittest.TestCase):
         """
         self.browser.close()
 
+    def check_for_row_in_list_table(self, row_text):
+        """
+        A helper function: only methods begining in 'test' get run.
+        """
+        table = self.browser.find_element_by_id("id_entity_table")
+        rows = table.find_elements_by_tag_name("tr")
+        self.assertIn(row_text, [row.text for row in rows])
+
 # Our user has heard about the double entry book keeping site
 # and elects to try it out by going to the site:
 
@@ -39,9 +47,7 @@ class NewUserTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 # ... and sees that it appears on the page in a 'List of Entities'.
-        table = self.browser.find_element_by_id("id_entity_table")
-        rows = table.find_elements_by_tag_name("tr")
-        self.assertIn("1. FirstEntity", [row.text for row in rows])
+        self.check_for_row_in_list_table("1. FirstEntity")
 # There is still a text box allowing for creation of another.
 # She creates 'SecondEntity' and sees it added to the list.
         inputbox = self.browser.find_element_by_id("id_new_entity")
@@ -49,10 +55,8 @@ class NewUserTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 # ... and sees that it appears on the page in a 'List of Entities'.
-        table = self.browser.find_element_by_id("id_entity_table")
-        rows = table.find_elements_by_tag_name("tr")
-        self.assertIn("1. FirstEntity", [row.text for row in rows])
-        self.assertIn("2. SecondEntity", [row.text for row in rows])
+        self.check_for_row_in_list_table("1. FirstEntity")
+        self.check_for_row_in_list_table("2. SecondEntity")
 
 # Will the site remember her list??
 # The site has generated a unique URL for her.
