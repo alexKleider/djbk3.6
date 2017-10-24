@@ -41,8 +41,7 @@ class NewUserTest(unittest.TestCase):
 # ... and sees that it appears on the page in a 'List of Entities'.
         table = self.browser.find_element_by_id("id_entity_table")
         rows = table.find_elements_by_tag_name("tr")
-        self.assertTrue(
-            any(row.text == "1. FirstEntity" for row in rows))
+        self.assertIn("1. FirstEntity", [row.text for row in rows])
 # There is still a text box allowing for creation of another.
 # She creates 'SecondEntity' and sees it added to the list.
 
