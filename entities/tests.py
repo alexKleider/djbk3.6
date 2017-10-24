@@ -38,3 +38,4 @@ class HomePageTest(TestCase):
         response = self.client.post('/',
             data = {"entity_text": "NewEntity"})
         self.assertIn("NewEntity", response.content.decode())
+        self.assertTemplateUsed(response, "home.html")
