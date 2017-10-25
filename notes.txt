@@ -1,0 +1,9 @@
+If use relational data base:
+
+Tables:
+    users
+    entities: user/entity, entity_name, full_name, 
+For each user/entity, there'll be
+    cofa: acnt_n(1'), title1, title2, d_or_c, summary_y_n
+    je: AutoNumber, user, date, text
+    li: AutoNumber, je, amt, acnt, d_or_c
