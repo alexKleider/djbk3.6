@@ -7,6 +7,6 @@ def home_page(request):
     entity.save()
 
     return render(request, 'home.html',
-        {'new_entity_text': request.POST.get("entity_text", ''),
+        {'new_entity_text': entity.text,
         })
 
