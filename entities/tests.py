@@ -38,6 +38,10 @@ class HomePageTest(TestCase):
     def test_can_save_a_POST_request(self):
         response = self.client.post('/',
             data = {"entity_text": "NewEntity"})
+        self.assertEqual(Entity.objects.count(), 1)
+        new_entity = Entity.objects.first()
+        self.assertEqual(new_entity.text, "NewEntity")
+
         self.assertIn("NewEntity", response.content.decode())
         self.assertTemplateUsed(response, "home.html")
 
