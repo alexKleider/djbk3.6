@@ -55,8 +55,8 @@ class EntityModelTest(TestCase):
         saved_items = Entity.objects.all()  # Query set: list like
         self.assertEqual(saved_items.count(), 2)
         first_saved_item = saved_items[0]
-        second_saved_item = saved_items[2]
-        self.assertEqual(fist_saved_item, "TheFirstEntity")
-        self.assertEqual(second_saved_item, "TheSecondEntity")
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text, "TheFirstEntity")
+        self.assertEqual(second_saved_item.text, "TheSecondEntity")
 
 
