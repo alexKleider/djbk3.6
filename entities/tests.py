@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 from entities.views import home_page
+from entities.models import Entity
 
 # Create your tests here.
 
@@ -39,3 +40,23 @@ class HomePageTest(TestCase):
             data = {"entity_text": "NewEntity"})
         self.assertIn("NewEntity", response.content.decode())
         self.assertTemplateUsed(response, "home.html")
+
+class EntityModelTest(TestCase):
+
+    def test_saving_and_retrieving_entities(self):
+        first_entity = Entity()
+        first_entity.text = "TheFirstEntity"
+        first_entity.save()
+
+        second_entity = Entity()
+        second_entity.text = "TheSecondEntity"
+        second_entity.save()
+
+        saved_items = Entity.objects.all()  # Query set: list like
+        self.assertEqual(saved_items.count(), 2)
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[2]
+        self.assertEqual(fist_saved_item, "TheFirstEntity")
+        self.assertEqual(second_saved_item, "TheSecondEntity")
+
+
