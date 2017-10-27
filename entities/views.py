@@ -6,5 +6,8 @@ def home_page(request):
         Entities.objects.create(text=request.POST['entity_text'])
         return redirect('/')
 
-    return render(request, 'home.html')
+    entities = Entities.objects.all()
+    return render(request, 'home.html',
+        {'entities': entities,
+        })
 

@@ -82,7 +82,5 @@ class EntityModelTest(TestCase):
 
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
-        n = Entities.objects.count()
-        print(" Number of entities is {}.".format(n))
         self.assertEqual(Entities.objects.count(), 0)
 
