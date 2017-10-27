@@ -42,8 +42,8 @@ class HomePageTest(TestCase):
         new_entity = Entity.objects.first()
         self.assertEqual(new_entity.text, "NewEntity")
 
-        self.assertIn("NewEntity", response.content.decode())
-        self.assertTemplateUsed(response, "home.html")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["location"], "/")
 
 class EntityModelTest(TestCase):
 
