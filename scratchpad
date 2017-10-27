@@ -1,0 +1,4 @@
+- Don't save blank entities for every request
+- Code smell: POST test is too long?
+- Display multiple entities in the table.
+- Support more than one set of entities.

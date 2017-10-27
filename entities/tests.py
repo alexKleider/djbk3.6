@@ -63,4 +63,9 @@ class EntityModelTest(TestCase):
         self.assertEqual(first_saved_item.text, "TheFirstEntity")
         self.assertEqual(second_saved_item.text, "TheSecondEntity")
 
+    def test_only_saves_items_when_necessary(self):
+        self.client.get('/')
+        n = Entity.objects.count()
+        print(" Number of entities is {}.".format(n))
+        self.assertEqual(Entity.objects.count(), 0)
 
