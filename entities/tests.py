@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 from entities.views import home_page
-from entities.models import Entity
+from entities.models import Entities
 
 # Create your tests here.
 
@@ -42,8 +42,8 @@ class HomePageTest(TestCase):
         """
         self.client.post('/',
             data = {"entity_text": "NewEntity"})
-        self.assertEqual(Entity.objects.count(), 1)
-        new_entity = Entity.objects.first()
+        self.assertEqual(Entities.objects.count(), 1)
+        new_entity = Entities.objects.first()
         self.assertEqual(new_entity.text, "NewEntity")
 
     def test_redirects_after_POST(self):
@@ -53,18 +53,27 @@ class HomePageTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/")
 
+    def test_displays_all_entities(self):
+        Entities.objects.create(text="FirstEntity")
+        Entities.objects.create(text="SecondEntity")
+
+        response = self.client.get('/')
+
+        self.assertIn("FirstEntity", response.content.decode())
+        self.assertIn("SecondEntity", response.content.decode())
+
 class EntityModelTest(TestCase):
 
     def test_saving_and_retrieving_entities(self):
-        first_entity = Entity()
+        first_entity = Entities()
         first_entity.text = "TheFirstEntity"
         first_entity.save()
 
-        second_entity = Entity()
+        second_entity = Entities()
         second_entity.text = "TheSecondEntity"
         second_entity.save()
 
-        saved_items = Entity.objects.all()  # Query set: list like
+        saved_items = Entities.objects.all()  # Query set: list like
         self.assertEqual(saved_items.count(), 2)
         first_saved_item = saved_items[0]
         second_saved_item = saved_items[1]
@@ -73,7 +82,7 @@ class EntityModelTest(TestCase):
 
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
-        n = Entity.objects.count()
+        n = Entities.objects.count()
         print(" Number of entities is {}.".format(n))
-        self.assertEqual(Entity.objects.count(), 0)
+        self.assertEqual(Entities.objects.count(), 0)
 
