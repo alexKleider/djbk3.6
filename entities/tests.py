@@ -36,11 +36,19 @@ class HomePageTest(TestCase):
 # Test that we can deal with a POST request:
 
     def test_can_save_a_POST_request(self):
-        response = self.client.post('/',
+        """
+        Since we are only testing the data base, no need to
+        save the response (returned by self.client.post.)
+        """
+        self.client.post('/',
             data = {"entity_text": "NewEntity"})
         self.assertEqual(Entity.objects.count(), 1)
         new_entity = Entity.objects.first()
         self.assertEqual(new_entity.text, "NewEntity")
+
+    def test_redirects_after_POST(self):
+        response = self.client.post('/',
+            data = {"entity_text": "NewEntity"})
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/")
