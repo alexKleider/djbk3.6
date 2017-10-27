@@ -1,4 +1,5 @@
 x Don't save blank entities for every request
 x Code smell: POST test is too long?
-- Display multiple entities in the table.
+x Display multiple entities in the table.
+- Clean up after ft runs.
 - Support more than one set of entities.
