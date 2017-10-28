@@ -1,10 +1,10 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 #   Keys.ENTER, Keys.Ctrl, ...
-import unittest
 import time
 
-class NewUserTest(unittest.TestCase):
+class NewUserTest(LiveServerTestCase):
     """
     Any method with a name beginning with 'test' is
     a test method and will be run by the test runner.
@@ -31,7 +31,7 @@ class NewUserTest(unittest.TestCase):
 # and elects to try it out by going to the site:
 
     def test_can_enter_entities_and_see_them_listed(self):
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
 # She notices that it is a site for "Double Entry Book Keeping"...
         self.assertIn("Double Entry Book Keeping", self.browser.title)
 # The home page provides her with the option of creating an 'entity'.
@@ -67,6 +67,3 @@ class NewUserTest(unittest.TestCase):
 
         self.fail("Finish the test!")
 
-if __name__ == '__main__':
-#   unittest.main(warnings='ignore')  # launches the test runner
-    unittest.main()  # launches the test runner
