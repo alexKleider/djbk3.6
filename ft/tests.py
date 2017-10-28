@@ -1,8 +1,14 @@
+# File: ft/tests.py
+
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 #   Keys.ENTER, Keys.Ctrl, ...
 import time
+
+# If there are strange problems,
+# try upgrading Selenium +/- geckodriver
+# See ../setup.txt  (Not in the git repo.)
 
 class NewUserTest(LiveServerTestCase):
     """

@@ -7,3 +7,9 @@ For each user/entity, there'll be
     cofa: acnt_n(1'), title1, title2, d_or_c, summary_y_n
     je: AutoNumber, user, date, text
     li: AutoNumber, je, amt, acnt, d_or_c
+
+If use file system for persistent storage as in the pre Django
+version of the debk program (all text files) the functional tests
+will have to have a setUp and tearDown part to deal with the data
+base.  This was already implemented in the first attempt made when
+I was reading the first edition of Percival's book.
