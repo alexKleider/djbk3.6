@@ -2,6 +2,7 @@
 
 from django.test import LiveServerTestCase
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 #   Keys.ENTER, Keys.Ctrl, ...
 import time
@@ -9,6 +10,8 @@ import time
 # If there are strange problems,
 # try upgrading Selenium +/- geckodriver
 # See ../setup.txt  (Not in the git repo.)
+
+MAX_WAIT = 10
 
 class NewUserTest(LiveServerTestCase):
     """
@@ -25,13 +28,21 @@ class NewUserTest(LiveServerTestCase):
         """
         self.browser.close()
 
-    def check_for_row_in_list_table(self, row_text):
+    def wait_for_row_in_list_table(self, row_text):
         """
         A helper function: only methods begining in 'test' get run.
         """
-        table = self.browser.find_element_by_id("id_entity_table")
-        rows = table.find_elements_by_tag_name("tr")
-        self.assertIn(row_text, [row.text for row in rows])
+        start_time = time.time()
+        while True:
+            try:
+                table = self.browser.find_element_by_id("id_entity_table")
+                rows = table.find_elements_by_tag_name("tr")
+                self.assertIn(row_text, [row.text for row in rows])
+                return
+            except (AssertionError, WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT:
+                    raise e
+                time.sleep(0.5)
 
 # Our user has heard about the double entry book keeping site
 # and elects to try it out by going to the site:
@@ -53,7 +64,7 @@ class NewUserTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 # ... and sees that it appears on the page in a 'List of Entities'.
-        self.check_for_row_in_list_table("1. FirstEntity")
+        self.wait_for_row_in_list_table("1. FirstEntity")
 # There is still a text box allowing for creation of another.
 # She creates 'SecondEntity' and sees it added to the list.
         inputbox = self.browser.find_element_by_id("id_new_entity")
@@ -61,8 +72,8 @@ class NewUserTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 # ... and sees that it appears on the page in a 'List of Entities'.
-        self.check_for_row_in_list_table("1. FirstEntity")
-        self.check_for_row_in_list_table("2. SecondEntity")
+        self.wait_for_row_in_list_table("1. FirstEntity")
+        self.wait_for_row_in_list_table("2. SecondEntity")
 
 # Will the site remember her list??
 # The site has generated a unique URL for her.
