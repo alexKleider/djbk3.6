@@ -3,3 +3,9 @@ x Code smell: POST test is too long?
 x Display multiple entities in the table.
 - Clean up after ft runs.
 - Support more than one set of entities.
+
+- Adjust models so that entities are associated with different users.
+- Add unique URLs for each user (list of entities.)
+- Add a IRL for creating a new list (user) of entities via POST
+- Add URLs for adding entities to existing lists (users') via POST
+
