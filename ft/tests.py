@@ -44,10 +44,10 @@ class NewUserTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
+
+    def test_can_start_a_list_for_one_user(self):
 # Our user has heard about the double entry book keeping site
 # and elects to try it out by going to the site:
-
-    def test_can_enter_entities_and_see_them_listed(self):
         self.browser.get(self.live_server_url)
 # She notices that it is a site for "Double Entry Book Keeping"...
         self.assertIn("Double Entry Book Keeping", self.browser.title)
@@ -75,12 +75,46 @@ class NewUserTest(LiveServerTestCase):
         self.wait_for_row_in_list_table("1. FirstEntity")
         self.wait_for_row_in_list_table("2. SecondEntity")
 
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        # Edith starts a new list of entities.
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element_by_id("id_new_entity")
+        inputbox.send_keys("FirstEntity")
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table("1. FirstEntity")
 # Will the site remember her list??
-# The site has generated a unique URL for her.
+# The site has generated a unique URL for our first user.
+        user1_url = self.browser.current_url
+        self.assertRegex(user1_url, '/entities/.+')
 
-# Visiting that URL reveals her list.
+        # Now a new user, second_user, comes to the site
 
-# Satisfied she goes back to sleep.
+        ## Use a new browser session to ensure not info cross
+        ## contamination through cookies etc
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # Second user visits page and sees no sign of Edith's list.
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name("body").text
+        selfAssertNotIn("FirstEntity", page_text)
+        selfAssertNotIn("SecondEntity", page_text)
+
+        # Second user begins his own list of entities:
+        inbox = self.browser.find_element_by_id("id_new_entity")
+        inbox.send_keys("Entity1")
+        inbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table("1. Entity1")
+
+        # Second user gets his own unique URL
+        user2_url = self.browser.current_url
+        self.assertRegex(user2_url, '/entities/.+')
+        self.assertNotEqual(user1_url, user2_url)
+
+        # No sign of user1's list:
+        page_text = self.browser.find_element_by_tag_name("body").text
+        selfAssertNotIn("FirstEntity", page_text)
+        selfAssertIn("Entity1", page_text)
 
         self.fail("Finish the test!")
 

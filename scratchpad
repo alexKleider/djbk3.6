@@ -9,3 +9,8 @@ x Display multiple entities in the table.
 - Add a IRL for creating a new list (user) of entities via POST
 - Add URLs for adding entities to existing lists (users') via POST
 
+Combine 
+1. Adding new functionality
+    adding a new ft and new application code
+2. Refactoring application code
+    to deliver same functionality but using new design
