@@ -11,7 +11,7 @@ import time
 # try upgrading Selenium +/- geckodriver
 # See ../setup.txt  (Not in the git repo.)
 
-MAX_WAIT = 10
+MAX_WAIT = 2
 
 class NewUserTest(LiveServerTestCase):
     """
@@ -97,8 +97,8 @@ class NewUserTest(LiveServerTestCase):
         # Second user visits page and sees no sign of Edith's list.
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name("body").text
-        selfAssertNotIn("FirstEntity", page_text)
-        selfAssertNotIn("SecondEntity", page_text)
+        self.assertNotIn("FirstEntity", page_text)
+        self.assertNotIn("SecondEntity", page_text)
 
         # Second user begins his own list of entities:
         inbox = self.browser.find_element_by_id("id_new_entity")
@@ -113,8 +113,8 @@ class NewUserTest(LiveServerTestCase):
 
         # No sign of user1's list:
         page_text = self.browser.find_element_by_tag_name("body").text
-        selfAssertNotIn("FirstEntity", page_text)
-        selfAssertIn("Entity1", page_text)
+        self.assertNotIn("FirstEntity", page_text)
+        self.assertIn("Entity1", page_text)
 
         self.fail("Finish the test!")
 

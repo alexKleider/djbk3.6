@@ -18,6 +18,8 @@ from django.contrib import admin
 from entities import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+#    url(r'^admin/', admin.site.urls),
     url(r'^$', views.home_page, name='home'),
+    url(r'^entities/the_only_list/$',
+        views.list_view, name='list_view'),
 ]

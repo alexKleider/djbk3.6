@@ -11,3 +11,8 @@ def home_page(request):
         {'entities': entities,
         })
 
+def list_view(request):
+    entities = Entities.objects.all()
+    return render(request, 'home.html',
+        {'entities': entities,
+        })
