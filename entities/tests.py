@@ -51,7 +51,8 @@ class HomePageTest(TestCase):
             data = {"entity_text": "NewEntity"})
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["location"], "/")
+        self.assertEqual(response["location"],
+        "/entities/the_only_list/")
 
     def test_displays_all_entities(self):
         Entities.objects.create(text="FirstEntity")
