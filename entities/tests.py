@@ -85,3 +85,14 @@ class EntityModelTest(TestCase):
         self.client.get('/')
         self.assertEqual(Entities.objects.count(), 0)
 
+class ListViewTest(TestCase):
+
+    def test_displays_all_listed_entities(self):
+        Entities.objects.create(text="FirstEntity")
+        Entities.objects.create(text="SecondEntity")
+
+        response = self.client.get('/entities/the_only_list/')
+
+        self.assertContains(response, "FirstEntity")
+        self.assertContains(response, "SecondEntity")
+
