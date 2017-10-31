@@ -28,7 +28,7 @@ class NewUserTest(LiveServerTestCase):
         """
         self.browser.close()
 
-    def wait_for_row_in_list_table(self, row_text):
+    def wait_for_and_assert_row_in_list_table(self, row_text):
         """
         A helper function: only methods begining in 'test' get run.
         """
@@ -62,18 +62,16 @@ class NewUserTest(LiveServerTestCase):
 # She creates 'FirstEntity' ...
         inputbox.send_keys("FirstEntity")
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
 # ... and sees that it appears on the page in a 'List of Entities'.
-        self.wait_for_row_in_list_table("1. FirstEntity")
+        self.wait_for_and_assert_row_in_list_table("1. FirstEntity")
 # There is still a text box allowing for creation of another.
 # She creates 'SecondEntity' and sees it added to the list.
         inputbox = self.browser.find_element_by_id("id_new_entity")
         inputbox.send_keys("SecondEntity")
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
 # ... and sees that it appears on the page in a 'List of Entities'.
-        self.wait_for_row_in_list_table("1. FirstEntity")
-        self.wait_for_row_in_list_table("2. SecondEntity")
+        self.wait_for_and_assert_row_in_list_table("1. FirstEntity")
+        self.wait_for_and_assert_row_in_list_table("2. SecondEntity")
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
         # Edith starts a new list of entities.
@@ -81,7 +79,7 @@ class NewUserTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id("id_new_entity")
         inputbox.send_keys("FirstEntity")
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1. FirstEntity")
+        self.wait_for_and_assert_row_in_list_table("1. FirstEntity")
 # Will the site remember her list??
 # The site has generated a unique URL for our first user.
         user1_url = self.browser.current_url
@@ -104,7 +102,7 @@ class NewUserTest(LiveServerTestCase):
         inbox = self.browser.find_element_by_id("id_new_entity")
         inbox.send_keys("Entity1")
         inbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1. Entity1")
+        self.wait_for_and_assert_row_in_list_table("1. Entity1")
 
         # Second user gets his own unique URL
         user2_url = self.browser.current_url
