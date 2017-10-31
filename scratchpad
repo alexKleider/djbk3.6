@@ -14,3 +14,9 @@ Combine
     adding a new ft and new application code
 2. Refactoring application code
     to deliver same functionality but using new design
+
+Rule of thumb (p105:)  If Unit tests are passing but 
+funtional tests are not, it's often a problem not covered
+by the unit tests- in our case: often a template problem.
+'entities/templates/view.html' doesn't specify a specific POST
+destination URL.
