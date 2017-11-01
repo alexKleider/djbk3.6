@@ -20,3 +20,15 @@ funtional tests are not, it's often a problem not covered
 by the unit tests- in our case: often a template problem.
 'entities/templates/view.html' doesn't specify a specific POST
 destination URL.
+
+
+
+    url(r'^$', views.home_page, name='home'),
+    # if POST: redirects to entities/the_only_listing
+    # else renders 'home.html
+
+    url(r'^entities/the_only_listing/$',
+        views.list_view, name='list_view'),
+    # renders listing.html
+
+

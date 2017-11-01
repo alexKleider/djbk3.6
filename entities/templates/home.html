@@ -1,17 +1,11 @@
 <html>
     <title>Double Entry Book Keeping</title>
-    <h1>Entities</h1>
+    <h1>Begin a List of Entities</h1>
 
     <form method="POST" action="/">
         <input name="entity_text" id="id_new_entity"
             placeholder="Enter a new entity" />
         {% csrf_token %}
     </form>
-
-    <table id="id_entity_table" >
-        {% for entity in entities %}
-        <tr><td>{{ forloop.counter }}. {{ entity.text }}</td></tr>
-        {% endfor %}
-    </table>
 
 </html>

@@ -38,7 +38,7 @@ class HomePageTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"],
-        "/entities/the_only_list/")
+        "/entities/the_only_listing/")
 
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
@@ -46,11 +46,15 @@ class HomePageTest(TestCase):
 
 class ListViewTest(TestCase):
 
+    def test_uses_listing_template(self):
+        response = self.client.get("/entities/the_only_listing/")
+        self.assertTemplateUsed(response, "listing.html")
+
     def test_displays_all_entities(self):
         Entities.objects.create(text="FirstEntity")
         Entities.objects.create(text="SecondEntity")
 
-        response = self.client.get('/entities/the_only_list/')
+        response = self.client.get('/entities/the_only_listing/')
 
         self.assertContains(response, "FirstEntity")
         self.assertContains(response, "SecondEntity")
