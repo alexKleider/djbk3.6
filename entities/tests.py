@@ -17,23 +17,9 @@ from entities.models import Entities
 
 class HomePageTest(TestCase):
 
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-
-    def test_home_page_returns_correct_html(self):
+    def test_uses_home_template(self):
         response = self.client.get("/")
-#       request = HttpRequest()
-#       response = home_page(request)
-        html = response.content.decode('utf8')
-        self.assertTrue(html.startswith('<html>'))
-        self.assertIn('<title>Double Entry Book Keeping</title>', html)
-        self.assertTrue(html.strip().endswith('</html>'))
-
-        self.assertTemplateUsed(response, "home.html")
-#       self.assertTemplateUsed(response, "imaginary.html")
-
-# Test that we can deal with a POST request:
+        self.assertTemplateUsed(response, 'home.html')
 
     def test_can_save_a_POST_request(self):
         """
@@ -54,14 +40,20 @@ class HomePageTest(TestCase):
         self.assertEqual(response["location"],
         "/entities/the_only_list/")
 
+    def test_only_saves_items_when_necessary(self):
+        self.client.get('/')
+        self.assertEqual(Entities.objects.count(), 0)
+
+class ListViewTest(TestCase):
+
     def test_displays_all_entities(self):
         Entities.objects.create(text="FirstEntity")
         Entities.objects.create(text="SecondEntity")
 
-        response = self.client.get('/')
+        response = self.client.get('/entities/the_only_list/')
 
-        self.assertIn("FirstEntity", response.content.decode())
-        self.assertIn("SecondEntity", response.content.decode())
+        self.assertContains(response, "FirstEntity")
+        self.assertContains(response, "SecondEntity")
 
 class EntityModelTest(TestCase):
 
@@ -80,19 +72,4 @@ class EntityModelTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, "TheFirstEntity")
         self.assertEqual(second_saved_item.text, "TheSecondEntity")
-
-    def test_only_saves_items_when_necessary(self):
-        self.client.get('/')
-        self.assertEqual(Entities.objects.count(), 0)
-
-class ListViewTest(TestCase):
-
-    def test_displays_all_listed_entities(self):
-        Entities.objects.create(text="FirstEntity")
-        Entities.objects.create(text="SecondEntity")
-
-        response = self.client.get('/entities/the_only_list/')
-
-        self.assertContains(response, "FirstEntity")
-        self.assertContains(response, "SecondEntity")
 

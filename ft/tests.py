@@ -45,7 +45,7 @@ class NewUserTest(LiveServerTestCase):
                 time.sleep(0.5)
 
 
-    def test_can_start_a_list_for_one_user(self):
+    def test_can_start_a_list_and_retrieve_it_later(self):
 # Our user has heard about the double entry book keeping site
 # and elects to try it out by going to the site:
         self.browser.get(self.live_server_url)
