@@ -23,3 +23,8 @@ urlpatterns = [
     url(r'^entities/the_only_listing/$',
         views.view_list, name='view_list'),
 ]
+
+# Convention being used:
+# URLs without trailing slash are 'action URLs'
+# - ones that modify the database.
+

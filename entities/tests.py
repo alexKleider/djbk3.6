@@ -21,25 +21,6 @@ class HomePageTest(TestCase):
         response = self.client.get("/")
         self.assertTemplateUsed(response, 'home.html')
 
-    def test_can_save_a_POST_request(self):
-        """
-        Since we are only testing the data base, no need to
-        save the response (returned by self.client.post.)
-        """
-        self.client.post('/',
-            data = {"entity_text": "NewEntity"})
-        self.assertEqual(Entities.objects.count(), 1)
-        new_entity = Entities.objects.first()
-        self.assertEqual(new_entity.text, "NewEntity")
-
-    def test_redirects_after_POST(self):
-        response = self.client.post('/',
-            data = {"entity_text": "NewEntity"})
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["location"],
-        "/entities/the_only_listing/")
-
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Entities.objects.count(), 0)
@@ -77,3 +58,30 @@ class EntityModelTest(TestCase):
         self.assertEqual(first_saved_item.text, "TheFirstEntity")
         self.assertEqual(second_saved_item.text, "TheSecondEntity")
 
+class NewListTest(TestCase):
+
+    def test_can_save_a_POST_request(self):
+        """
+        Since we are only testing the data base, no need to
+        save the response (returned by self.client.post.)
+        """
+        self.client.post('/entities/new',
+            data = {"entity_text": "NewEntity"})
+        self.assertEqual(Entities.objects.count(), 1)
+        new_entity = Entities.objects.first()
+        self.assertEqual(new_entity.text, "NewEntity")
+
+    def test_redirects_after_POST(self):
+        response = self.client.post('/entities/new',
+            data = {"entity_text": "NewEntity"})
+
+        self.assertRedirects(response, '/entities/the_only_listing/')
+        # The above line replaces the following 2 statements: 
+#       self.assertEqual(response.status_code, 302)
+#       self.assertEqual(response["location"],
+#       "/entities/the_only_listing/")
+
+
+# Convention being used:
+# URLs without trailing slash are 'action URLs'
+# - ones that modify the database.

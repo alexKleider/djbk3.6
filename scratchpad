@@ -6,7 +6,7 @@ x Display multiple entities in the table.
 
 - Adjust models so that entities are associated with different users.
 - Add unique URLs for each user (list of entities.)
-- Add a IRL for creating a new list (user) of entities via POST
+- Add a URL for creating a new list (user) of entities via POST
 - Add URLs for adding entities to existing lists (users') via POST
 
 Combine 
@@ -32,3 +32,7 @@ destination URL.
     # renders listing.html
 
 
+Sequence:
+    add a URL to urls.py,
+    then add the corresponding view to app/views.py,
+    and finally add a template if needed.
