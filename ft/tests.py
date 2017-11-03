@@ -66,7 +66,7 @@ class NewUserTest(LiveServerTestCase):
         self.wait_for_and_assert_row_in_list_table("1. FirstEntity")
 # There is still a text box allowing for creation of another.
 # She creates 'SecondEntity' and sees it added to the list.
-        # Can't find element in next line:
+        # Can't find element in next line:  ######################
         inputbox = self.browser.find_element_by_id("id_new_entity")
         inputbox.send_keys("SecondEntity")
         inputbox.send_keys(Keys.ENTER)

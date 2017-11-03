@@ -1,6 +1,15 @@
 <html>
+  <head>
     <title>Double Entry Book Keeping</title>
+  </head>
+  <body>
     <h1>Entities</h1>
+
+    <form method="POST" action="/entities/new">
+        <input name="entity_text" id="id_new_entity"
+            placeholder="Enter a new entity" />
+        {% csrf_token %}
+    </form>
 
     <table id="id_entity_table" >
         {% for entity in entities %}
@@ -8,4 +17,5 @@
         {% endfor %}
     </table>
 
+  </body>
 </html>

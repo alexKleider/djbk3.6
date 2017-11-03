@@ -21,10 +21,6 @@ class HomePageTest(TestCase):
         response = self.client.get("/")
         self.assertTemplateUsed(response, 'home.html')
 
-    def test_only_saves_items_when_necessary(self):
-        self.client.get('/')
-        self.assertEqual(Entities.objects.count(), 0)
-
 class ListViewTest(TestCase):
 
     def test_uses_listing_template(self):
