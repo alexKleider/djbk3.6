@@ -20,6 +20,7 @@ from entities import views
 urlpatterns = [
 #    url(r'^admin/', admin.site.urls),
     url(r'^$', views.home_page, name='home'),
+    url(r'^entities/new$', views.new_list, name='new_list'),
     url(r'^entities/the_only_listing/$',
         views.view_list, name='view_list'),
 ]
