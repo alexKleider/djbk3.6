@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 from entities.views import home_page
-from entities.models import Entities
+from entities.models import Entities, List
 
 # Create your tests here.
 
@@ -28,31 +28,43 @@ class ListViewTest(TestCase):
         self.assertTemplateUsed(response, "listing.html")
 
     def test_displays_all_entities(self):
-        Entities.objects.create(text="FirstEntity")
-        Entities.objects.create(text="SecondEntity")
+        list_ = List.objects.create()
+        Entities.objects.create(text="FirstEntity", list=list_)
+        Entities.objects.create(text="SecondEntity", list=list_)
 
         response = self.client.get('/entities/the_only_listing/')
 
         self.assertContains(response, "FirstEntity")
         self.assertContains(response, "SecondEntity")
 
-class EntityModelTest(TestCase):
+class ListAndEntityModelsTest(TestCase):
 
     def test_saving_and_retrieving_entities(self):
+        list_ = List()
+        list_.save()
+
         first_entity = Entities()
         first_entity.text = "TheFirstEntity"
+        first_entity.list = list_
         first_entity.save()
 
         second_entity = Entities()
         second_entity.text = "TheSecondEntity"
+        second_entity.list = list_
         second_entity.save()
+
+        saved_list = List.objects.first()
+        self.assertEqual(saved_list, list_)
 
         saved_items = Entities.objects.all()  # Query set: list like
         self.assertEqual(saved_items.count(), 2)
         first_saved_item = saved_items[0]
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, "TheFirstEntity")
+        self.assertEqual(first_saved_item.list, list_)
         self.assertEqual(second_saved_item.text, "TheSecondEntity")
+        self.assertEqual(second_saved_item.list, list_)
+        # Above (behind the scenes) checks that id attributes match.
 
 class NewListTest(TestCase):
 
