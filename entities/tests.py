@@ -24,18 +24,24 @@ class HomePageTest(TestCase):
 class ListViewTest(TestCase):
 
     def test_uses_listing_template(self):
-        response = self.client.get("/entities/the_only_listing/")
+        list_ = List.objects.create()
+        response = self.client.get(f"/entities/{list_.id}/")
         self.assertTemplateUsed(response, "listing.html")
 
-    def test_displays_all_entities(self):
-        list_ = List.objects.create()
-        Entities.objects.create(text="FirstEntity", list=list_)
-        Entities.objects.create(text="SecondEntity", list=list_)
+    def test_displays_only_entities_for_that_list(self):
+        correct_list = List.objects.create()
+        Entities.objects.create(text="FirstEntity", list=correct_list)
+        Entities.objects.create(text="SecondEntity", list=correct_list)
+        other_list = List.objects.create()
+        Entities.objects.create(text="E1_Other", list=other_list)
+        Entities.objects.create(text="E2_Other", list=other_list)
 
-        response = self.client.get('/entities/the_only_listing/')
+        response = self.client.get(f'/entities/{correct_list.id}/')
 
         self.assertContains(response, "FirstEntity")
         self.assertContains(response, "SecondEntity")
+        self.assertNotContains(response, 'E1_Other')
+        self.assertNotContains(response, 'E2_Other')
 
 class ListAndEntityModelsTest(TestCase):
 
@@ -83,7 +89,8 @@ class NewListTest(TestCase):
         response = self.client.post('/entities/new',
             data = {"entity_text": "NewEntity"})
 
-        self.assertRedirects(response, '/entities/the_only_listing/')
+        new_list = List.objects.first()
+        self.assertRedirects(response, f'/entities/{new_list.id}/')
         # The above line replaces the following 2 statements: 
 #       self.assertEqual(response.status_code, 302)
 #       self.assertEqual(response["location"],

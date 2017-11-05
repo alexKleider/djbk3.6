@@ -4,8 +4,9 @@ x Display multiple entities in the table.
 - Clean up after ft runs.
 - Support more than one set of entities.
 
-- Adjust models so that entities are associated with different users.
-- Add unique URLs for each user (list of entities.)
+x Adjust models so that entities are associated with different
+users/lists.
+x Add unique URLs for each user (list of entities.)
 x Add a URL for creating a new list (user) of entities via POST
 - Add URLs for adding entities to existing lists (users') via POST
 

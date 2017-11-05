@@ -19,9 +19,13 @@ from entities import views
 
 urlpatterns = [
 #    url(r'^admin/', admin.site.urls),
+# Home page (action):
     url(r'^$', views.home_page, name='home'),
+# New (action) listing of entities:
     url(r'^entities/new$', views.new_list, name='new_list'),
-    url(r'^entities/the_only_listing/$',
+# A specific listing (no action):
+# The captured name can be passed to the view as a second param.
+    url(r'^entities/(.*)/$',  # Captures the name of the listing.
         views.view_list, name='view_list'),
 ]
 
